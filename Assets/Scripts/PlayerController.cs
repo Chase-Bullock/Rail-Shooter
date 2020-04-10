@@ -3,36 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 
-    [Tooltip("In ms^-1")][SerializeField] float xSpeed = 4f;
-    [Tooltip("Meters")][SerializeField] float xMaxPos = 25f;
+    [Header("General")]
+    [Tooltip("In ms^-1")][SerializeField] float xSpeed = 60f;
+    [Tooltip("Meters")][SerializeField] float xMaxPos = 29f;
+    [Tooltip("In ms^-1")][SerializeField] float ySpeed = 50f;
+    [Tooltip("Meters")][SerializeField] float yMaxPos = 19f;
+
+    [Header("Screen-position Based")]
+    [SerializeField] float positionPitchFactor = -1.1f;
+    [SerializeField] float positionYawFactor = 1.1f;
     
-    [Tooltip("In ms^-1")][SerializeField] float ySpeed = 4f;
-    [Tooltip("Meters")][SerializeField] float yMaxPos = 25f;
-    
-    [SerializeField] float positionPitchFactor = -5f;
-    [SerializeField] float positionYawFactor = 2f;
+    [Header("Control-throw based")]
     [SerializeField] float throwPitchFactor = -20f;
     [SerializeField] float throwRollFactor = -20f;
 
    private float xThrow, yThrow;
+   private bool controlDisabled = false;
    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        print("player triggered");
-    }
-
-    // Update is called once per frame
+   // Update is called once per frame
     void Update()
     {
+        if (controlDisabled) return;
         ProcessRotation();
         ProcessTranslation();
     }
@@ -47,6 +42,11 @@ public class Player : MonoBehaviour
         float roll = xThrow * throwRollFactor;
         
         transform.localRotation = Quaternion.Euler(pitch, yaw ,roll );
+    }
+
+    void OnPlayerDeath() //Called by string reference
+    {
+        controlDisabled = true;
     }
     
     private void ProcessTranslation()
