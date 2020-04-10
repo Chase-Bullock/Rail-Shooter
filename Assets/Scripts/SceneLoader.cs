@@ -6,18 +6,12 @@ using UnityEngine.SceneManagement;
 // ReSharper disable MemberCanBeMadeStatic.Local
 // ReSharper disable ArrangeTypeMemberModifiers
 
-public class MusicPlayer : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
     // Start is called before the first frame update
-
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     void Start()
     {
-        Invoke(nameof(LoadFirstScene), 2f);
+        Invoke(nameof(LoadFirstScene), 3f);
     }
 
     void LoadFirstScene()
@@ -25,9 +19,4 @@ public class MusicPlayer : MonoBehaviour
         SceneManager.LoadScene(1); 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
